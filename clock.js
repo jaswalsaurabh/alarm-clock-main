@@ -15,7 +15,7 @@ class AlarmClock {
   constructor() {
     this.alarms = [];
     this.intervalId = null;
-    this.snoozeInterval = 20000;
+    this.snoozeInterval = 120;
   }
 
   static formatInputTime(time) {
@@ -124,12 +124,12 @@ class AlarmClock {
     let myalarm = this.alarms[index];
     const now = new Date().getTime();
     const alarmTime = AlarmClock.getTimestamp(myalarm.time);
-    const snoozeActiveTime = alarmTime + this.snoozeInterval;
+    const snoozeActiveTime = alarmTime + this.snoozeInterval * 1000;
     if (now >= snoozeActiveTime) {
       if (myalarm.snoozeCount < 3) {
         myalarm.snoozed = true;
         myalarm.rung = false;
-        myalarm.time = this.updateAlarmTime(20);
+        myalarm.time = this.updateAlarmTime(this.snoozeInterval);
         myalarm.snoozeCount += 1;
         console.log(
           `Alarm for ${myalarm.time} on ${myalarm.day} has been snoozed and will alert again in 20s.`
@@ -141,7 +141,7 @@ class AlarmClock {
         myalarm.snoozeTimeoutId = setTimeout(() => {
           myalarm.snoozed = false;
           myalarm.snoozeTimeoutId = null;
-        }, 5000);
+        }, this.snoozeInterval * 1000);
       } else {
         console.log(
           `Alarm for ${myalarm.time} on ${myalarm.day} has been canceled after 3 snoozes.`
