@@ -43,6 +43,11 @@ class AlarmClock {
     return timePattern.test(time);
   }
 
+  static isValidIndex(input) {
+    const indexPattern = /^[1-9][0-9]*$/;
+    return indexPattern.test(input);
+  }
+
   static getDayString(dayNumber) {
     const dayMapping = {
       1: "Monday",
@@ -267,6 +272,11 @@ const menu = () => {
         break;
       case "7":
         rl.question("Delete alarm (index): ", (index) => {
+          if (!AlarmClock.isValidIndex(index)) {
+            console.log("Index should be a number");
+            menu();
+            return;
+          }
           alarmClock.deleteAlarm(index);
           menu();
         });
