@@ -15,7 +15,7 @@ class AlarmClock {
   constructor() {
     this.alarms = [];
     this.intervalId = null;
-    this.snoozeInterval = 120;
+    this.snoozeInterval = 300;
   }
 
   static formatInputTime(time) {

@@ -20,7 +20,7 @@ This is a command-line interface (CLI) program for an alarm clock, implemented u
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/alarm-clock-cli.git
+    git clone https://github.com/jaswalsaurabh/alarm-clock-main
     ```
 
 ## Usage
@@ -28,7 +28,7 @@ This is a command-line interface (CLI) program for an alarm clock, implemented u
 1. Run the program:
 
     ```bash
-    node alarmClock.js
+    node clock.js
     ```
 
 2. Follow the on-screen menu to interact with the alarm clock.
@@ -40,7 +40,7 @@ This is a command-line interface (CLI) program for an alarm clock, implemented u
 3. **Start Alarm Clock**: Starts the alarm clock, checking alarms every 5 seconds.
 4. **Stop Alarm Clock**: Stops the alarm clock.
 5. **Show All Alarms**: Displays all currently set alarms.
-6. **Snooze Alarm**: Snoozes an alarm for 2 mins, with a maximum of three snoozes.
+6. **Snooze Alarm**: Snoozes an alarm for 5 mins, with a maximum of three snoozes.
 7. **Delete Alarm**: Deletes a specified alarm.
 8. **Exit**: Exits the program.
 
