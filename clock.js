@@ -15,7 +15,7 @@ class AlarmClock {
   constructor() {
     this.alarms = [];
     this.intervalId = null;
-    this.snoozeInterval = 300;
+    this.snoozeInterval = 60;
   }
 
   static formatInputTime(time) {
@@ -27,14 +27,13 @@ class AlarmClock {
     if (minute.length < 2) {
       minute = "0" + minute;
     }
-    return `${hour}:${minute}:00 ${period}`;
+    return `${hour}:${minute} ${period}`;
   }
 
   static formatTime(date) {
     return date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
-      second: "2-digit",
       hour12: true,
     });
   }
@@ -64,7 +63,7 @@ class AlarmClock {
   static getTimestamp(timeString) {
     const now = new Date();
     const [time, period] = timeString.split(" ");
-    let [hours, minutes, seconds] = time.split(":").map(Number);
+    let [hours, minutes] = time.split(":").map(Number);
     if (period === "PM" && hours !== 12) {
       hours += 12;
     }
@@ -74,7 +73,7 @@ class AlarmClock {
 
     now.setHours(hours);
     now.setMinutes(minutes);
-    now.setSeconds(seconds);
+    now.setSeconds(0);
 
     return now.getTime();
   }
@@ -109,7 +108,7 @@ class AlarmClock {
 
     this.alarms.forEach((alarm) => {
       if (
-        currentTime >= alarm.time &&
+        currentTime == alarm.time &&
         alarm.day === currentDay &&
         !alarm.snoozed &&
         !alarm.rung
@@ -129,16 +128,17 @@ class AlarmClock {
     let myalarm = this.alarms[index];
     const now = new Date().getTime();
     const alarmTime = AlarmClock.getTimestamp(myalarm.time);
-    const snoozeActiveTime = alarmTime + this.snoozeInterval * 1000;
+    let snoozeActiveTime = alarmTime;
+    if (myalarm.snoozeCount == 0) {
+      snoozeActiveTime = alarmTime + this.snoozeInterval * 1000;
+    }
     if (now >= snoozeActiveTime) {
       if (myalarm.snoozeCount < 3) {
         myalarm.snoozed = true;
         myalarm.rung = false;
         myalarm.time = this.updateAlarmTime(this.snoozeInterval);
         myalarm.snoozeCount += 1;
-        console.log(
-          `Alarm for ${myalarm.time} on ${myalarm.day} has been snoozed and will alert again in 20s.`
-        );
+        console.log(`Alarm is snoozed till ${myalarm.time} on ${myalarm.day}`);
         this.alarms[index] = myalarm;
         if (myalarm.snoozeTimeoutId) {
           clearTimeout(myalarm.snoozeTimeoutId);
